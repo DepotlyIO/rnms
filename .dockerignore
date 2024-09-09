@@ -2,6 +2,7 @@
 /.cache
 /.data
 /.git
+/.github
 /.idea
 /.nitro
 /.output
@@ -13,5 +14,8 @@
 /.env
 /.env.example
 /.gitignore
+/.prettierignore
+/.prettierrc.json
 /Dockerfile
 /README.md
+/eslint.config.mjs
