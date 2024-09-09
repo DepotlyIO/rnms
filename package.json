@@ -9,9 +9,25 @@
     "build": "nitro build",
     "dev": "nitro dev",
     "prepare": "nitro prepare",
-    "preview": "node .output/server/index.mjs"
+    "preview": "node .output/server/index.mjs",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "code:check": "pnpm lint; pnpm format",
+    "code:fix": "pnpm lint:fix && pnpm format:fix"
   },
   "dependencies": {
+    "@requestnetwork/epk-signature": "^0.9.0",
+    "@requestnetwork/request-client.js": "^0.49.0",
     "nitropack": "latest"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.1.1",
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "prettier": "^3.3.3",
+    "typescript-eslint": "^8.5.0"
   }
 }
