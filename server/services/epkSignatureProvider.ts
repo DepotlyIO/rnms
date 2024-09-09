@@ -1,8 +1,11 @@
 import { EthereumPrivateKeySignatureProvider } from '@requestnetwork/epk-signature';
 import { Types } from '@requestnetwork/request-client.js';
 
-export const createEpkSignatureProvider = () =>
-  new EthereumPrivateKeySignatureProvider({
+export const createEpkSignatureProvider = () => {
+  const runtimeConfig = useRuntimeConfig()
+
+  return new EthereumPrivateKeySignatureProvider({
     method: Types.Signature.METHOD.ECDSA,
-    privateKey: process.env.PAYEE_PRIVATE_KEY,
+    privateKey: runtimeConfig.payeePrivateKey,
   });
+}
