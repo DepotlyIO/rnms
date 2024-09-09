@@ -1,6 +1,7 @@
 # Directories
 /.cache
 /.data
+/.git
 /.idea
 /.nitro
 /.output
@@ -8,4 +9,9 @@
 /node_modules
 
 # Files
+/.dockerignore
 /.env
+/.env.example
+/.gitignore
+/Dockerfile
+/README.md
