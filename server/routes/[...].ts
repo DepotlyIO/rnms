@@ -1,5 +1,3 @@
-export default defineEventHandler((event) => {
-  event.node.res.statusCode = 404;
-
-  return { error: 'route not found', status: 404 };
+export default defineEventHandler(() => {
+  throw createError({ status: 404, message: 'route not found' });
 });
