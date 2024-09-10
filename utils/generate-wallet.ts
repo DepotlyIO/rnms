@@ -6,6 +6,7 @@ const generateEthereumKeyPair = () => {
   return {
     privateKey: wallet.privateKey,
     publicKey: wallet.publicKey,
+    address: wallet.address,
   };
 };
 
