@@ -15,7 +15,8 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "code:check": "pnpm lint; pnpm format",
-    "code:fix": "pnpm lint:fix && pnpm format:fix"
+    "code:fix": "pnpm lint:fix && pnpm format:fix",
+    "generate:wallet": "tsx utils/generate-wallet.ts"
   },
   "dependencies": {
     "@requestnetwork/epk-signature": "^0.9.0",
@@ -26,8 +27,10 @@
     "@eslint/compat": "^1.1.1",
     "@eslint/js": "^9.10.0",
     "eslint": "^9.10.0",
+    "ethers": "^5.7.2",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
+    "tsx": "^4.19.0",
     "typescript-eslint": "^8.5.0"
   }
 }
