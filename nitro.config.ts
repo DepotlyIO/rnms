@@ -4,6 +4,8 @@ export default defineNitroConfig({
   runtimeConfig: {
     apiToken: '',
     payeePrivateKey: '',
+    payeePublicKey: '',
+    payeeAddress: '',
   },
   srcDir: 'server',
 });
