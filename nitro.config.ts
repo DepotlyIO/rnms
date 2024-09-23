@@ -3,9 +3,10 @@ export default defineNitroConfig({
   noPublicDir: true,
   runtimeConfig: {
     apiToken: '',
-    payeePrivateKey: '',
-    payeePublicKey: '',
-    payeeAddress: '',
+    jsonRpcProviderUrl: '',
+    payerPrivateKey: '',
+    payerPublicKey: '',
+    payerAddress: '',
   },
   srcDir: 'server',
 });

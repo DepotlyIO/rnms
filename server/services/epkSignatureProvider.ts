@@ -6,6 +6,6 @@ export const createEpkSignatureProvider = () => {
 
   return new EthereumPrivateKeySignatureProvider({
     method: Types.Signature.METHOD.ECDSA,
-    privateKey: runtimeConfig.payeePrivateKey,
+    privateKey: runtimeConfig.payerPrivateKey,
   });
 };

@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
 
       payer: {
         type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
-        value: runtimeConfig.payeeAddress,
+        value: runtimeConfig.payerAddress,
       },
 
       timestamp: Utils.getCurrentTimestampInSecond(),
@@ -51,7 +51,7 @@ export default defineEventHandler(async (event) => {
 
     signer: {
       type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
-      value: runtimeConfig.payeeAddress,
+      value: runtimeConfig.payerAddress,
     },
   };
 
