@@ -9,7 +9,7 @@ interface requestBody {
   content: unknown;
   currency: {
     type: CURRENCY;
-    value: 'ETH' | 'BTC' | string;
+    value: 'ETH' | string;
   };
 }
 
@@ -18,6 +18,11 @@ export default defineEventHandler(async (event) => {
 
   if (!['ETH', 'ERC20'].includes(body.currency.type))
     throw createError({ status: 422, message: `'${body.currency.type}' type not implemented yet` });
+
+  const paymentNetworkId =
+    body.currency.value === 'ETH'
+      ? Types.Extension.PAYMENT_NETWORK_ID.ETH_FEE_PROXY_CONTRACT
+      : Types.Extension.PAYMENT_NETWORK_ID.ERC20_FEE_PROXY_CONTRACT;
 
   const runtimeConfig = useRuntimeConfig();
   const requestClient = createRequestClient();
@@ -46,7 +51,7 @@ export default defineEventHandler(async (event) => {
     },
 
     paymentNetwork: {
-      id: Types.Extension.PAYMENT_NETWORK_ID.ERC20_FEE_PROXY_CONTRACT,
+      id: paymentNetworkId,
       parameters: {
         paymentNetworkName: NETWORK,
         paymentAddress: body.address,
