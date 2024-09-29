@@ -1,6 +1,6 @@
 import { Types, Utils } from '@requestnetwork/request-client.js';
 import { createRequestClient } from '~/services/requestClient';
-import { CURRENCY } from '@requestnetwork/types/dist/request-logic-types';
+import type { CURRENCY } from '@requestnetwork/types/dist/request-logic-types';
 import type { ICreateRequestParameters } from '@requestnetwork/types/dist/client-types';
 
 interface requestBody {
@@ -19,10 +19,16 @@ export default defineEventHandler(async (event) => {
   if (!['ETH', 'ERC20'].includes(body.currency.type))
     throw createError({ status: 422, message: `'${body.currency.type}' type not implemented yet` });
 
-  const paymentNetworkId =
+  const requestParams =
     body.currency.value === 'ETH'
-      ? Types.Extension.PAYMENT_NETWORK_ID.ETH_FEE_PROXY_CONTRACT
-      : Types.Extension.PAYMENT_NETWORK_ID.ERC20_FEE_PROXY_CONTRACT;
+      ? {
+          currencyType: Types.RequestLogic.CURRENCY.ETH,
+          paymentNetworkId: Types.Extension.PAYMENT_NETWORK_ID.ETH_FEE_PROXY_CONTRACT,
+        }
+      : {
+          currencyType: Types.RequestLogic.CURRENCY.ERC20,
+          paymentNetworkId: Types.Extension.PAYMENT_NETWORK_ID.ERC20_FEE_PROXY_CONTRACT,
+        };
 
   const runtimeConfig = useRuntimeConfig();
   const requestClient = createRequestClient();
@@ -30,7 +36,7 @@ export default defineEventHandler(async (event) => {
   const params: ICreateRequestParameters = {
     requestInfo: {
       currency: {
-        type: Types.RequestLogic.CURRENCY[body.currency.type],
+        type: requestParams.currencyType,
         value: body.currency.value,
         network: NETWORK,
       },
@@ -51,7 +57,7 @@ export default defineEventHandler(async (event) => {
     },
 
     paymentNetwork: {
-      id: paymentNetworkId,
+      id: requestParams.paymentNetworkId,
       parameters: {
         paymentNetworkName: NETWORK,
         paymentAddress: body.address,
