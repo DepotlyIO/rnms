@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
       currency: {
         type: Types.RequestLogic.CURRENCY.ERC20,
         value: '0x419Fe9f14Ff3aA22e46ff1d03a73EdF3b70A62ED', // USDT contract
-        network: 'sepolia',
+        network: NETWORK,
       },
 
       expectedAmount: body.amount,
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     paymentNetwork: {
       id: Types.Extension.PAYMENT_NETWORK_ID.ERC20_FEE_PROXY_CONTRACT,
       parameters: {
-        paymentNetworkName: 'sepolia',
+        paymentNetworkName: NETWORK,
         paymentAddress: body.address,
         feeAddress: FEE_ADDRESS,
         feeAmount: '0',

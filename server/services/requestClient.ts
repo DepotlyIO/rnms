@@ -4,7 +4,7 @@ import { createEpkSignatureProvider } from '~/services/epkSignatureProvider';
 export const createRequestClient = () =>
   new RequestNetwork({
     nodeConnectionConfig: {
-      baseURL: 'https://sepolia.gateway.request.network/',
+      baseURL: REQUEST_NETWORK_NODE,
     },
     signatureProvider: createEpkSignatureProvider(),
   });
