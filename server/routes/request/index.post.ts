@@ -1,15 +1,23 @@
 import { Types, Utils } from '@requestnetwork/request-client.js';
 import { createRequestClient } from '~/services/requestClient';
+import { CURRENCY } from '@requestnetwork/types/dist/request-logic-types';
 import type { ICreateRequestParameters } from '@requestnetwork/types/dist/client-types';
 
 interface requestBody {
   amount: string;
   address: string;
   content: unknown;
+  currency: {
+    type: CURRENCY;
+    value: 'ETH' | 'BTC' | string;
+  };
 }
 
 export default defineEventHandler(async (event) => {
   const body: requestBody = await readBody(event);
+
+  if (!['ETH', 'ERC20'].includes(body.currency.type))
+    throw createError({ status: 404, message: `'${body.currency.type}' type not implemented yet` })
 
   const runtimeConfig = useRuntimeConfig();
   const requestClient = createRequestClient();
@@ -17,8 +25,8 @@ export default defineEventHandler(async (event) => {
   const params: ICreateRequestParameters = {
     requestInfo: {
       currency: {
-        type: Types.RequestLogic.CURRENCY.ERC20,
-        value: '0x419Fe9f14Ff3aA22e46ff1d03a73EdF3b70A62ED', // USDT contract
+        type: Types.RequestLogic.CURRENCY[body.currency.type],
+        value: body.currency.value,
         network: NETWORK,
       },
 
