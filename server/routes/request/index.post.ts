@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   const body: requestBody = await readBody(event);
 
   if (!['ETH', 'ERC20'].includes(body.currency.type))
-    throw createError({ status: 404, message: `'${body.currency.type}' type not implemented yet` })
+    throw createError({ status: 404, message: `'${body.currency.type}' type not implemented yet` });
 
   const runtimeConfig = useRuntimeConfig();
   const requestClient = createRequestClient();
