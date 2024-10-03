@@ -1,5 +1,7 @@
 {
-  "private": true,
+  "private": false,
+  "version": "0.1.0",
+  "license": "GPL-3.0",
   "engines": {
     "node": "22.x",
     "pnpm": "9.x"
