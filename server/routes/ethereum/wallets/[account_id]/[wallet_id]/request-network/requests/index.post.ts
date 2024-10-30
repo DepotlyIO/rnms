@@ -1,5 +1,4 @@
 import { Types, Utils } from '@requestnetwork/request-client.js';
-import { createRequestClient } from '~/services/requestClient';
 import type { CURRENCY } from '@requestnetwork/types/dist/request-logic-types';
 import type { ICreateRequestParameters } from '@requestnetwork/types/dist/client-types';
 
@@ -14,6 +13,7 @@ interface requestBody {
 }
 
 export default defineEventHandler(async (event) => {
+  const { account_id, wallet_id } = useEthereumWalletPathData(event);
   const body: requestBody = await readBody(event);
 
   if (!['ETH', 'ERC20'].includes(body.currency.type))
@@ -31,14 +31,15 @@ export default defineEventHandler(async (event) => {
         };
 
   const runtimeConfig = useRuntimeConfig();
-  const requestClient = createRequestClient();
+  const wallet = useEthereumWallet(account_id, wallet_id);
+  const requestNetworkClient = useRequestNetworkClient(wallet.privateKey);
 
   const params: ICreateRequestParameters = {
     requestInfo: {
       currency: {
         type: requestParams.currencyType,
         value: body.currency.value,
-        network: NETWORK,
+        network: runtimeConfig.ethereum.network,
       },
 
       expectedAmount: body.amount,
@@ -50,18 +51,19 @@ export default defineEventHandler(async (event) => {
 
       payer: {
         type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
-        value: runtimeConfig.payerAddress,
+        value: wallet.address,
       },
 
       timestamp: Utils.getCurrentTimestampInSecond(),
     },
 
+    // @ts-expect-error I dunno, but it's working
     paymentNetwork: {
       id: requestParams.paymentNetworkId,
       parameters: {
-        paymentNetworkName: NETWORK,
+        paymentNetworkName: runtimeConfig.ethereum.network,
         paymentAddress: body.address,
-        feeAddress: FEE_ADDRESS,
+        feeAddress: runtimeConfig.ethereum.feeAddress,
         feeAmount: '0',
       },
     },
@@ -70,11 +72,11 @@ export default defineEventHandler(async (event) => {
 
     signer: {
       type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
-      value: runtimeConfig.payerAddress,
+      value: wallet.address,
     },
   };
 
-  const request = await requestClient.createRequest(params);
+  const request = await requestNetworkClient.createRequest(params);
 
-  return await request.waitForConfirmation();
+  return request.getData();
 });

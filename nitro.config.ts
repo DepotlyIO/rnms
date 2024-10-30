@@ -4,9 +4,14 @@ export default defineNitroConfig({
   runtimeConfig: {
     apiToken: '',
     jsonRpcProviderUrl: '',
-    payerPrivateKey: '',
-    payerPublicKey: '',
-    payerAddress: '',
+    ethereum: {
+      network: '',
+      feeAddress: '',
+      mnemonicPhrase: '',
+    },
+    requestNetwork: {
+      nodeUrl: '',
+    },
   },
   srcDir: 'server',
 });
